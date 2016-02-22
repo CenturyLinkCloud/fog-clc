@@ -9,8 +9,7 @@ module Fog
 
     # val:false - all queued responses are polled until completion
     # val:true - explicitly manage async calls
-    POLL_ASYNC = false
+    POLL_ASYNC = true
     POLL_INTERVAL = 5
-
   end
 end
