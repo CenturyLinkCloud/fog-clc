@@ -27,6 +27,7 @@ module Fog
       request      :get_server
       request      :update_server
       request      :delete_server
+      request      :get_credentials
       request      :create_public_ip
       request      :get_public_ip
       request      :update_public_ip

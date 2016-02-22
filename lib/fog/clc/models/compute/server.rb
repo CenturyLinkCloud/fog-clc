@@ -65,7 +65,6 @@ module Fog
               # detect changes and prepare set of patch ops
               service.update_server(check_uuid(id), patches)
             end
-            read
           end
         end
 
@@ -93,6 +92,9 @@ module Fog
           self
         end
 
+        def credentials
+          service.get_credentials(check_uuid(id))
+        end
 
 =begin
         def power_state=(val)
@@ -120,7 +122,6 @@ module Fog
         end
 
 
-
         protected
 
         def cache_attrs!(attrs)
@@ -142,11 +143,18 @@ module Fog
           methods.each do |m|
             s = m.to_sym
             if self.send(s) != prev.send(s)
+              v = self.send(s)
+              if m == 'password'
+                v = {
+                  :password => v,
+                  :current => self.credentials['password']
+                }
+              end
               patches << {
                 :op => :set,
                 :member => specials[m] || m,
-                :value => self.send(s)
-                }
+                :value => v
+              }
             end
           end
           patches
