@@ -18,7 +18,7 @@ module Fog
 
       def block_status(&block)
         resp = yield
-        if POLL_ASYNC && resp['isQueued']
+        if POLL_ASYNC
           poll_status(resp, service)
         else
           resp
@@ -26,7 +26,14 @@ module Fog
       end
 
       def poll_status(resp, service)
-        if st = links(resp)['status']
+        # grr, we get one of the following from platform
+        # {"links" => [...]}
+        # {"status" => "<dc>-<id>" ... }
+        # {"rel" => "status", "id" => "<dc>-<id>" ...}
+        st = (resp["rel"] == "status") && resp["id"]
+        st ||= resp["status"]
+        st ||= links(resp)['status']
+        if st
           loop do
             resp = service.get_status(st)
             Fog::Logger.debug "polling status #{st} ==> #{resp.inspect}"
