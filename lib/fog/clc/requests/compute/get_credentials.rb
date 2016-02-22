@@ -1,19 +1,18 @@
 module Fog
   module Compute
-    class CLC 
+    class CLC
       class Real
-        def create_server(data = {})
-          resp = request(
-            :expects  => [200, 201, 202],
-            :method   => "POST",
-            :path     => "/v2/servers/#{clc_alias}",
-            :body     => Fog::JSON.encode(data)
+        def get_credentials(id)
+          request(
+            :expects  => [200],
+            :method   => "GET",
+            :path     => "/v2/servers/#{clc_alias}/#{id}/credentials"
           )
         end
       end
 
       class Mock
-        def create_server(attributes)
+        def get_credentials
           Fog::Mock.not_implemented
           #response = Excon::Response.new
           #response.status = 200
