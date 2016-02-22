@@ -10,7 +10,7 @@ module Fog
 
       class Server < Fog::Compute::Server
         include Fog::CLC::Common
-        include Fog::Compute::CLC::PublicIP
+        include Fog::Compute::CLC::PublicIPMixin
 
         identity  :id
 

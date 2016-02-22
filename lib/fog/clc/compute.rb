@@ -18,6 +18,8 @@ module Fog
       model_path   'fog/clc/models/compute'
       model        :server
       collection   :servers
+      model        :port
+      model        :cidr
 
       request_path 'fog/clc/requests/compute'
       request      :get_status
