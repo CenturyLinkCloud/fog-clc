@@ -1,19 +1,19 @@
 # fog-clc
 
-fog.io plugin for CLC platform - provides compute resources for use within fog projects. 
+[fog.io](http://fog.io) plugin for CLC platform - provides compute resources for use within fog projects. 
 
 
 # Usage
 
 add the gem to your Gemfile
 
-```
+```ruby
 gem "fog-clc", :git => "https://github.com/CenturyLinkCloud/eco-fog-clc"
 ```
 
 require into your project and instantiate
 
-```
+```ruby
 require 'fog/clc'
 creds = {
   clc_username:<u>,
@@ -24,7 +24,7 @@ clc = Fog::Compute::CLC.new(creds)
 
 ```
 
-```
+```ruby
 # load a server
 server = clc.servers.get("CA1ACCSVR")
 <Fog::Compute::CLC::Server
@@ -67,10 +67,14 @@ server.add_public_ip(server.private_ip_addresses.first, ports)
 ```
 
 
-
 # TODO
 - groups
 - load balancer
 - queue
 - firewall?
 - server-template?
+
+
+# License
+Distributed under the [Apache 2.0 license](LICENSE.md) 
+

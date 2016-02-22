@@ -1,5 +1,4 @@
 require 'fog/json'
-require 'pp'
 
 module Fog
   module CLC
@@ -47,7 +46,6 @@ module Fog
         @clc_alias ||= res['accountAlias']
         @auth_data = res
       end
-
 
     end
   end

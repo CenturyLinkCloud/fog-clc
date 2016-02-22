@@ -1,7 +1,5 @@
 require 'fog/core/model'
 require 'fog/compute/models/server'
-require 'fog/clc/core'
-
 require 'fog/clc/models/compute/public_ip'
 
 module Fog

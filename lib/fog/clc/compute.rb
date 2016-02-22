@@ -1,7 +1,6 @@
-require 'fog/core/connection'
-require 'fog/compute'
-require 'fog/clc'
+require 'fog/clc/common'
 require 'fog/clc/service'
+
 
 module Fog
   module Compute
@@ -33,8 +32,6 @@ module Fog
       request      :update_public_ip
       request      :delete_public_ip
 
-
-
       class Mock < Fog::CLC::Service
 
         def self.data
@@ -63,7 +60,10 @@ module Fog
       class Real < Fog::CLC::Service
 
         def initialize(options={})
-          @connection = Fog::Core::Connection.new(Fog::CLC::BASE, options[:persistent], options[:connection_options] || {})
+          @connection = Fog::Core::Connection.new(
+                        Fog::CLC::API_BASE,
+                        options[:persistent],
+                        options[:connection_options] || {})
           authenticate(options) unless @auth_token
         end
 
