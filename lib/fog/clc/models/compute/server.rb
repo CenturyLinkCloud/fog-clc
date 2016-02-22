@@ -2,12 +2,15 @@ require 'fog/core/model'
 require 'fog/compute/models/server'
 require 'fog/clc/core'
 
+require 'fog/clc/models/compute/public_ip'
+
 module Fog
   module Compute
     class CLC
 
       class Server < Fog::Compute::Server
         include Fog::CLC::Common
+        include Fog::Compute::CLC::PublicIP
 
         identity  :id
 

@@ -5,7 +5,7 @@ require 'fog/clc/service'
 
 module Fog
   module Compute
-    
+
     class CLC < Fog::Service
       include Fog::CLC::Errors
 
@@ -20,11 +20,15 @@ module Fog
       collection   :servers
 
       request_path 'fog/clc/requests/compute'
+      request      :get_status
       request      :create_server
       request      :get_server
       request      :update_server
       request      :delete_server
-      request      :get_status
+      request      :create_public_ip
+      request      :get_public_ip
+      request      :update_public_ip
+      request      :delete_public_ip
 
 
 
@@ -66,8 +70,7 @@ module Fog
 
       end
 
-      
+
     end
   end
 end
-    
