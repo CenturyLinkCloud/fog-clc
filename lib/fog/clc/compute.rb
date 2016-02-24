@@ -15,22 +15,34 @@ module Fog
       requires :clc_username, :clc_password, :clc_alias
 
       model_path   'fog/clc/models/compute'
+      model        :dc
+      collection   :dcs
       model        :server
       collection   :servers
+      model        :group
+      collection   :groups
       model        :port
       model        :cidr
 
       request_path 'fog/clc/requests/compute'
+      request      :get_dc
       request      :get_status
+
       request      :create_server
       request      :get_server
       request      :update_server
       request      :delete_server
       request      :get_credentials
+
       request      :create_public_ip
       request      :get_public_ip
       request      :update_public_ip
       request      :delete_public_ip
+
+      request      :create_group
+      request      :get_group
+      request      :update_group
+      request      :delete_group
 
       class Mock < Fog::CLC::Service
 
