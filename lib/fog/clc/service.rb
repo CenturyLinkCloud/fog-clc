@@ -29,25 +29,24 @@ module Fog
         { 'Content-Type' => 'application/json',
           'Accept' => 'application/json',
           'User-Agent' => "CenturyLinkCloud/fog-clc",
-          'Authorization' => @auth_data ? "Bearer #{@auth_data['bearerToken']}" : "",
+          'Authorization' => @auth ? "Bearer #{@auth['bearerToken']}" : "",
         }.merge(options[:headers] || {})
       end
-      
+
       def authenticate(options={})
-        @clc_username ||= options[:clc_username] || ENV['CLC_USERNAME']
-        @clc_password ||= options[:clc_password] || ENV['CLC_USERNAME']
-        res = request :method  => 'POST', 
-                                  :path    => '/v2/authentication/login',
-                                  :expects => [200],
-                                  :body    => Fog::JSON.encode({ 
-                                    :username => @clc_username, 
-                                    :password => @clc_password
-                                  })
-        @clc_alias ||= res['accountAlias']
-        @auth_data = res
+        @auth ||= begin
+                    @clc_username = options[:clc_username] || ENV['CLC_USERNAME']
+                    @clc_password = options[:clc_password] || ENV['CLC_PASSWORD']
+                    @clc_alias    = options[:clc_alias] || ENV['CLC_ALIAS']
+                    creds = { :username => @clc_username, :password => @clc_password }
+                    request(:expects => [200],
+                            :method  => 'POST',
+                            :path    => '/v2/authentication/login',
+                            :body    => Fog::JSON.encode(creds))
+
+                  end
       end
 
     end
   end
 end
-
