@@ -93,6 +93,11 @@ module Fog
           @connection.reset
         end
 
+        # generic pass through for debug use
+        def raw_request(opts={})
+          request(opts)
+        end
+
       end
 
 
