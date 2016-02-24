@@ -2,7 +2,7 @@ module Fog
   module Compute
     class CLC
       class Real
-        def get_dc(dc)
+        def get_dc(dc=nil)
           resp = request(
             :expects  => [200],
             :method   => "GET",
@@ -12,7 +12,7 @@ module Fog
       end
 
       class Mock
-        def get_dc(dc, id)
+        def get_dc(dc)
           Fog::Mock.not_implemented
         end
       end

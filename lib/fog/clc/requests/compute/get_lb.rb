@@ -2,13 +2,13 @@ module Fog
   module Compute
     class CLC
       class Real
-        def get_lb(dc, id)
+        def get_lb(dc, id=nil)
           resp = request(
             :expects  => [200],
             :method   => "GET",
             :path     => "/v2/sharedLoadBalancers/#{clc_alias}/#{dc}/#{id}"
           )
-          resp["dc"] = dc
+          resp["dc"] = dc if resp.is_a?(Hash)
           resp
         end
       end

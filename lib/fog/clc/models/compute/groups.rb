@@ -11,10 +11,13 @@ module Fog
           raise StandardError, "this operation is unsupported on CLC"
         end
 
+        def in_dc(dcname)
+          dc = Fog::Compute::CLC::DC.new(service.get_dc(dcname))
+          dc.group_ids.map {|id| new(service.get_group(id)) }
+        end
+
         def get(id)
-          if g = service.get_group(id)
-            new(g)
-          end
+          new(service.get_group(id))
         end
 
       end
