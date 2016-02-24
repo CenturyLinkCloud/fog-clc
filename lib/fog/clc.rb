@@ -28,7 +28,6 @@ module Fog
     ).freeze
 
     service(:compute, 'clc/compute')
-    service(:lb, 'clc/lb')
 
   end
 end

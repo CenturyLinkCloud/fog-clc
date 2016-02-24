@@ -28,6 +28,7 @@ module Fog
 
       request_path 'fog/clc/requests/compute'
       request      :get_dc
+      request      :get_dc_capabilities
       request      :get_status
 
       request      :create_server

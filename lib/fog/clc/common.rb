@@ -1,12 +1,33 @@
-
 module Fog
   module CLC
-
     module Common
       extend self
 
-      def linked(resp)
-        Hash[resp['links'].collect {|l| [l['rel'], l['id']].compact }.compact]
+      # links are returned in this general form:
+      # {
+      #    "rel"=>"self",
+      #    "href"=>"/v2/sharedLoadBalancers/pb/ca1/df22a758700f4610a3594876e2ae41f0/pools/587c72124b9a449ba2145dfcbaf6be66",
+      #    "verbs"=>["GET", "PUT", "DELETE"]}
+      # }
+      # {
+      #    "rel"=>"self",
+      #    "id"=>"587c72124b9a449ba2145dfcbaf6be66",
+      #    "href"=>"/v2/sharedLoadBalancers/pb/ca1/df22a758700f4610a3594876e2ae41f0/pools/587c72124b9a449ba2145dfcbaf6be66",
+      # }
+
+
+      def linkmap(links, attr='id')
+        # given an array of links
+        Hash[links.collect {|l| [l['rel'], l[attr]].compact }.compact]
+      end
+
+      def href
+        linkmap(self.links, 'href')['self'] if respond_to?(:links)
+      end
+
+      def set_dc
+        # /v2/<entity>/{accountAlias}/{dataCenter}/{id}
+        self.dc = href.split('/')[4].upcase if respond_to?(:dc=)
       end
 
       def check_uuid(id)
@@ -33,7 +54,7 @@ module Fog
         # {"rel" => "status", "id" => "<dc>-<id>" ...}
         st = (resp["rel"] == "status") && resp["id"]
         st ||= resp["status"]
-        st ||= linked(resp)['status']
+        st ||= linkmap(resp['links'])['status']
         if st
           loop do
             resp = service.get_status(st)
@@ -46,6 +67,7 @@ module Fog
           raise Fog::CLC::Errors::ServiceError, "expected queued response but received: #{resp}"
         end
       end
+
     end
 
 

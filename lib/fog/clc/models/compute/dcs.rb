@@ -3,18 +3,17 @@ require 'fog/core/collection'
 module Fog
   module Compute
     class CLC
+      # Datacenter Collection
       class Dcs < Fog::Collection
 
         model Fog::Compute::CLC::DC
 
         def all
-          raise StandardError, "this operation is unsupported on CLC"
+          service.get_dc.map {|h| new(h) }
         end
 
         def get(dc)
-          if d = service.get_dc(dc)
-            new(d)
-          end
+          new(service.get_dc(dc))
         end
 
       end
