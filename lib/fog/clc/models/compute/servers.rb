@@ -4,6 +4,7 @@ require 'fog/clc/models/compute/server'
 module Fog
   module Compute
     class CLC
+      # Collection methods for Server
       class Servers < Fog::Collection
 
         model Fog::Compute::CLC::Server
@@ -13,9 +14,7 @@ module Fog
         end
         
         def get(id)
-          if s = service.get_server(id)
-            new(s)
-          end
+          new(service.get_server(id))
         end
 
       end

@@ -19,7 +19,7 @@ module Fog
         attribute :links,            :type => :array
         attribute :servers_count,    :aliases => "serversCount"
         attribute :location_id,      :aliases => "locationId"
-
+        alias :dc :location_id
 
         def initialize(attrs)
           id = attrs['id']
@@ -52,16 +52,15 @@ module Fog
         def update
           requires :id
           patches = []
-          %w( name description parentGroupId customFields ).each do |p|
-            if p == 'parentGroupId'
-              v = self.parent_group_id
-            else
-              v = self.send(p.to_sym)
-            end
+          mapping = {
+            'parent_group_id' => 'parentGroupId',
+            'custom_fields' => 'customFields'
+          }
+          %w( name description parent_group_id custom_fields ).each do |p|
             patches << {
               :op => :set,
-              :member => p,
-              :value => v,
+              :member => mapping[p] || p,
+              :value => send(p.to_sym),
             }
           end
           service.update_group(id, patches)

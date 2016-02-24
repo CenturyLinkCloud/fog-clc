@@ -12,6 +12,7 @@ module Fog
 
         identity  :id
 
+        attribute :dc
         attribute :name
         attribute :description
         attribute :password
@@ -33,7 +34,8 @@ module Fog
 
         def initialize(attrs)
           cache_attrs!(attrs)
-          super(attrs)
+          inst = super(attrs)
+          inst
         end
 
         def create
@@ -106,6 +108,10 @@ module Fog
           read
         end
 
+        def group
+          Fog::Compute::CLC::Group.new(service.get_group(group_id))
+        end
+
         def private_ip_addresses
           details["ipAddresses"].map {|h| h["internal"] }
         end
@@ -143,7 +149,10 @@ module Fog
           # only supports certain fields
           patches = []
           methods = %w(mem group_id cpu description disks password)
-          specials = { 'mem' => 'memory', 'group_id' => 'groupId' }
+          mapping = {
+            'mem' => 'memory',
+            'group_id' => 'groupId'
+          }
           prev = self.class.new(details)
           methods.each do |m|
             s = m.to_sym
@@ -157,7 +166,7 @@ module Fog
               end
               patches << {
                 :op => :set,
-                :member => specials[m] || m,
+                :member => mapping[m] || m,
                 :value => v
               }
             end

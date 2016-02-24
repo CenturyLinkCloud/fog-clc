@@ -1,15 +1,12 @@
 module Fog
   module Compute
     class CLC
-      class CIDR
-        attr_accessor :cidr_block
-
-        def initialize(cidr_block)
-          self.cidr_block = cidr_block
-        end
+      # Wrapper around JSON object representing PublicIP CIDR block
+      class CIDR < Fog::Model
+        attribute :cidr
 
         def to_json(*args)
-          Fog::JSON.encode({ :cidr => self.cidr_block })
+          Fog::JSON.encode({ :cidr => self.cidr })
         end
       end
     end
