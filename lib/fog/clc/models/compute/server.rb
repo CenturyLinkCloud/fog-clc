@@ -81,9 +81,13 @@ module Fog
           end
         end
 
+        def ready?
+          self.status == 'active'
+        end
+
         def wait_until_ready
           loop do
-            break if self.status == 'active'
+            break if ready?
             sleep(Fog::CLC::POLL_INTERVAL)
             read
           end
