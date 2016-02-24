@@ -4,8 +4,8 @@ module Fog
       class Real
         def update_group(id, data)
           request(
-            :expects  => [200, 201, 202],
-            :method   => "PUT",
+            :expects  => [200, 201, 202, 204],
+            :method   => "PATCH",
             :path     => "/v2/groups/#{clc_alias}/#{id}",
             :body     => Fog::JSON.encode(data),
           )

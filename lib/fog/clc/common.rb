@@ -4,7 +4,8 @@ module Fog
 
     module Common
       extend self
-      def links(resp)
+
+      def linked(resp)
         Hash[resp['links'].collect {|l| [l['rel'], l['id']].compact }.compact]
       end
 
@@ -32,7 +33,7 @@ module Fog
         # {"rel" => "status", "id" => "<dc>-<id>" ...}
         st = (resp["rel"] == "status") && resp["id"]
         st ||= resp["status"]
-        st ||= links(resp)['status']
+        st ||= linked(resp)['status']
         if st
           loop do
             resp = service.get_status(st)
@@ -121,6 +122,6 @@ module Fog
         end
       end
     end
-    
+
   end
 end

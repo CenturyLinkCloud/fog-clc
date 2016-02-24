@@ -51,6 +51,8 @@ module Fog
       request      :update_group
       request      :delete_group
 
+      request      :set_power_state
+
       class Mock < Fog::CLC::Service
 
         def self.data

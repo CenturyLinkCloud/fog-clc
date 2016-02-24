@@ -17,6 +17,7 @@ module Fog
         attribute :password
         attribute :status
         attribute :os
+        attribute :details
         attribute :group_id,         :aliases => "groupId"
         attribute :os_type,          :aliases => "osType"
         attribute :server_type,      :aliases => "type", :default => "standard"
@@ -28,7 +29,7 @@ module Fog
         attribute :disks,            :type => :array, :aliases => "disks"
         attribute :created_at,       :type => :time, :aliases => 'createdDate'
         attribute :modified_at,      :type => :time, :aliases => 'modifiedDate'
-        attribute :details
+        attribute :links,            :type => :array, :aliases => "links"
 
         def initialize(attrs)
           cache_attrs!(attrs)
@@ -98,11 +99,13 @@ module Fog
           service.get_credentials(check_uuid(id))
         end
 
-=begin
-        def power_state=(val)
-          return if power_state == val
+        def power=(val)
+          requires :id
+          resp = service.set_power_state(val, [id]).first
+          block_status { resp } if resp['isQueued']
+          read
         end
-=end
+
         def private_ip_addresses
           details["ipAddresses"].map {|h| h["internal"] }
         end

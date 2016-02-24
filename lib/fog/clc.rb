@@ -10,12 +10,25 @@ module Fog
 
     API_BASE = "https://api.ctl.io"
 
-    # val:false - all queued responses are polled until completion
-    # val:true - explicitly manage async calls
-    POLL_ASYNC = true
     POLL_INTERVAL = 5
 
+    # false: all queued responses are polled until completion
+    # true:  explicitly manage async calls
+    POLL_ASYNC = true
+
+    # server & group power states
+    POWER_STATES = %w(
+      powerOn powerOff pause reboot reset shutDown
+      setMaintenance startMaintenance stopMaintenance
+    ).freeze
+
+    # available datacenters/locations
+    DC = %W(
+      CA1 CA2 CA3 DE1 GB1 GB3 IL1 NY1 SG1 UC1 UT1 VA1 WA1
+    ).freeze
+
     service(:compute, 'clc/compute')
+    service(:lb, 'clc/lb')
 
   end
 end
