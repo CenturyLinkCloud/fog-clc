@@ -23,6 +23,8 @@ module Fog
       collection   :groups
       model        :port
       model        :cidr
+      model        :lb
+      collection   :lbs
 
       request_path 'fog/clc/requests/compute'
       request      :get_dc
@@ -38,6 +40,11 @@ module Fog
       request      :get_public_ip
       request      :update_public_ip
       request      :delete_public_ip
+
+      request      :create_lb
+      request      :get_lb
+      request      :update_lb
+      request      :delete_lb
 
       request      :create_group
       request      :get_group
