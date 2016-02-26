@@ -18,6 +18,8 @@ module Fog
         attribute :pools,            :type => :array
         attribute :links,            :type => :array
 
+        METHODS = %w( roundRobin leastConnection )
+        PERSISTENCE = %w( standard sticky )
 
         def initialize(attrs)
           inst = super(attrs)
@@ -26,11 +28,9 @@ module Fog
           inst
         end
 
-        def create(dc)
+        def create
           requires :dc, :name
-          block_status do
-            service.create_lb(dc, name, description, status)
-          end
+          merge_attributes(service.create_lb(dc, name, description, status))
         end
 
         def read
@@ -40,12 +40,29 @@ module Fog
           self
         end
 
+        def update
+          requires :id
+          service.update_lb(dc, id)
+        end
+
+        def destroy
+          requires :id
+          service.delete_lb(dc, id)
+        end
+
+        def add_pool(port, method=METHODS.first, persistence=PERSISTENCE.first)
+          self.pools << service.create_pool(dc, id, port, method, persistence)
+          set_pools
+        end
+
+
+
         protected
 
         def set_pools
           self.pools = (self.pools || []).map do |h|
             if h.is_a?(Hash)
-              Fog::Compute::CLC::Pool.new(h)
+              Fog::Compute::CLC::Pool.new(h.merge(:service => service))
             else
               h
             end

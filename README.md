@@ -69,11 +69,10 @@ server.add_public_ip(server.private_ip_addresses.first, ports)
 
 # TODO
 - groups
-- load balancer
-- queue
 - firewall?
 - server-template?
-
+- archive/restore servers
+- exec package
 
 # License
 Distributed under the [Apache 2.0 license](LICENSE.md) 

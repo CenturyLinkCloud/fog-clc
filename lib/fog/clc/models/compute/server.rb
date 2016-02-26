@@ -76,14 +76,6 @@ module Fog
           end
         end
 
-        def save
-          if identity
-            update
-          else
-            create
-          end
-        end
-
         def ready?
           self.status == 'active'
         end
@@ -109,7 +101,8 @@ module Fog
         end
 
         def group
-          Fog::Compute::CLC::Group.new(service.get_group(group_id))
+          Fog::Compute::CLC::Group.new(
+            service.get_group(group_id).merge(:service => service))
         end
 
         def private_ip_addresses

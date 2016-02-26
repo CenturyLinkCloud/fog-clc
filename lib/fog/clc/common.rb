@@ -18,7 +18,7 @@ module Fog
 
       def linkmap(links, attr='id')
         # given an array of links
-        Hash[links.collect {|l| [l['rel'], l[attr]].compact }.compact]
+        Hash[links.collect {|l| [l['rel'], l[attr]] if l[attr]}.compact]
       end
 
       def href
@@ -27,6 +27,8 @@ module Fog
 
       def set_dc
         # /v2/<entity>/{accountAlias}/{dataCenter}/{id}
+        return unless dc.nil?
+        raise ArgumentError, "missing field DC" unless href
         self.dc = href.split('/')[4].upcase if respond_to?(:dc=)
       end
 
@@ -67,6 +69,16 @@ module Fog
           raise Fog::CLC::Errors::ServiceError, "expected queued response but received: #{resp}"
         end
       end
+
+      # Fog::Model.save
+      def save
+        if identity
+          update
+        else
+          create
+        end
+      end
+
 
     end
 

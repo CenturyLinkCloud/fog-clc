@@ -25,6 +25,8 @@ module Fog
       model        :cidr
       model        :lb
       collection   :lbs
+      model        :pool
+      collection   :pools
 
       request_path 'fog/clc/requests/compute'
       request      :get_dc
@@ -46,6 +48,11 @@ module Fog
       request      :get_lb
       request      :update_lb
       request      :delete_lb
+      request      :create_pool
+      request      :get_pool
+      request      :update_pool
+      request      :delete_pool
+      request      :update_pool_nodes
 
       request      :create_group
       request      :get_group
