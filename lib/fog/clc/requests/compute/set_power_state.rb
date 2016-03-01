@@ -3,7 +3,7 @@ module Fog
     class CLC
       class Real
         def set_power_state(state, servers)
-          raise ArgumentError unless Fog::CLC::POWER_STATES.include?(state.to_s)
+          raise ArgumentError, "allowable #{Fog::CLC::POWER_STATES.inspect}" unless Fog::CLC::POWER_STATES.include?(state.to_s)
           # returns array of status objects to poll
           request(
             :expects  => [200, 201, 202],
