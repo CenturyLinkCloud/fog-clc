@@ -2,11 +2,12 @@ require 'fog/core/services_mixin'
 require 'fog/compute'
 require 'fog/core'
 require 'fog/core/connection'
-require 'fog/clc/version'
 
 module Fog
   module CLC
     extend Fog::Provider
+
+    VERSION = "0.1"
 
     API_BASE = "https://api.ctl.io"
 
@@ -14,7 +15,7 @@ module Fog
 
     # false: all queued responses are polled until completion
     # true:  explicitly manage async calls
-    POLL_ASYNC = true
+    POLL_ASYNC = false
 
     # server & group power states
     POWER_STATES = %w(

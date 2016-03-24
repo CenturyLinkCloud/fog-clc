@@ -26,9 +26,11 @@ module Fog
       end
 
       def headers(options={})
+        agent = "fog-clc/#{Fog::CLC::VERSION}"
         { 'Content-Type' => 'application/json',
           'Accept' => 'application/json',
-          'User-Agent' => "CenturyLinkCloud/fog-clc",
+          'User-Agent' => agent,
+          'Api-Client' => agent,
           'Authorization' => @auth ? "Bearer #{@auth['bearerToken']}" : "",
         }.merge(options[:headers] || {})
       end
